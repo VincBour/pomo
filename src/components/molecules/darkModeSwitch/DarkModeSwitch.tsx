@@ -1,11 +1,11 @@
 import { SyntheticEvent, useCallback } from "react";
-import { useClockStore } from "../../../store/useClockStore";
 import { DisplaySwitch } from "../../atomics/displaySwitch/DisplaySwitch";
 import { DivMarginTwo } from "../../atomics/div/DivMargin";
+import { useThemeStore } from "../../../store/useThemeStore";
 
 export const DarkModeSwitch = () => {
-  const isDarkMode = useClockStore((state) => state.isDarkMode);
-  const setIsDarkMode = useClockStore((state) => state.setIsDarkMode);
+  const isDarkMode = useThemeStore((state) => state.isDarkMode);
+  const setIsDarkMode = useThemeStore((state) => state.setIsDarkMode);
 
   const handleChange = useCallback(
     (_event: SyntheticEvent<Element, Event>, checked: boolean) => {

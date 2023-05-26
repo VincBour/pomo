@@ -9,7 +9,6 @@ export interface ClockStore {
   rounds: number;
   current_time: ActualTimeType;
   current_round: number;
-  isDarkMode: boolean;
   isAutoStart: boolean;
   isNotification: boolean;
   sessions_completed: number;
@@ -19,7 +18,6 @@ export interface ClockStoreActions {
   setShortBreak: (short_break: number) => void;
   setLongBreak: (long_break: number) => void;
   setRounds: (rounds: number) => void;
-  setIsDarkMode: (isDarkMode: boolean) => void;
   setIsAutoStart: (isAutoStart: boolean) => void;
   setIsNotification: (isNotification: boolean) => void;
   getRemainingTime: () => Record<ActualTimeType, number>;
@@ -34,7 +32,6 @@ export const initialState: ClockStore = {
   rounds: 4,
   current_time: "focus",
   current_round: 1,
-  isDarkMode: false,
   isAutoStart: false,
   isNotification: true,
   sessions_completed: 0,
@@ -47,7 +44,6 @@ export const useClockStore = create<ClockStore & ClockStoreActions>(
     setShortBreak: (short_break: number) => set({ short_break }),
     setLongBreak: (long_break: number) => set({ long_break }),
     setRounds: (rounds: number) => set({ rounds }),
-    setIsDarkMode: (isDarkMode: boolean) => set({ isDarkMode }),
     setIsAutoStart: (isAutoStart: boolean) => set({ isAutoStart }),
     setIsNotification: (isNotification: boolean) => set({ isNotification }),
     getRemainingTime: () => {

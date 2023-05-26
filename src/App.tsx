@@ -7,13 +7,9 @@ import {
 import { WithLayout } from "./layout/WithLayout";
 import { Stats } from "./pages/Stats";
 import { Settings } from "./pages/Settings";
-import {
-  createTheme,
-  CssBaseline,
-  PaletteMode,
-  ThemeProvider,
-} from "@mui/material";
+import { createTheme, CssBaseline, ThemeProvider } from "@mui/material";
 import React from "react";
+import { useThemeStore } from "./store/useThemeStore";
 
 const router = createBrowserRouter([
   {
@@ -34,48 +30,14 @@ const router = createBrowserRouter([
   },
 ]);
 
-const getDesignTokens = (mode: "dark" | "light") => ({
-  palette: {
-    mode,
-  },
-  components: {
-    MuiCssBaseline: {
-      styleOverrides: {
-        html: {
-          height: "auto",
-        },
-        body: {
-          height: "auto",
-        },
-      },
-    },
-  },
-});
-
 function App() {
-  const [mode, setMode] = React.useState<PaletteMode>("light");
-  const colorMode = React.useMemo(
-    () => ({
-      // The dark mode switch would invoke this method
-      toggleColorMode: () => {
-        setMode((prevMode: PaletteMode) =>
-          prevMode === "light" ? "dark" : "light"
-        );
-      },
-    }),
-    []
-  );
-  const theme = React.useMemo(() => createTheme(getDesignTokens(mode)), [mode]);
+  const theme = useThemeStore((state) => state.theme);
   return (
-    <ColorModeContext.Provider value={colorMode}>
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
-        <RouterProvider router={router} />
-      </ThemeProvider>
-    </ColorModeContext.Provider>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <RouterProvider router={router} />
+    </ThemeProvider>
   );
 }
 
 export default App;
-
-const ColorModeContext = React.createContext({});

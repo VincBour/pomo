@@ -12,14 +12,17 @@ import AssessmentOutlinedIcon from "@mui/icons-material/AssessmentOutlined";
 import SettingsSuggestOutlinedIcon from "@mui/icons-material/SettingsSuggestOutlined";
 import LightModeOutlinedIcon from "@mui/icons-material/LightModeOutlined";
 import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
-import { useState, useCallback } from "react";
+import { useCallback } from "react";
 import { NavLink } from "../../components/atomics/navLink/NavLink";
+import { useThemeStore } from "../../store/useThemeStore";
 
 export const DrawerLeft = () => {
-  const [theme, setTheme] = useState("light");
+  const mode = useThemeStore((state) => state.mode);
+  const theme = useThemeStore((state) => state.theme);
+  const setTheme = useThemeStore((state) => state.setMode);
   const onChangeTheme = useCallback(() => {
-    setTheme((prev) => (prev === "light" ? "dark" : "light"));
-  }, []);
+    setTheme();
+  }, [setTheme]);
   return (
     <Drawer
       variant="permanent"
@@ -46,25 +49,96 @@ export const DrawerLeft = () => {
             to: "/settings",
           },
         ].map((data) => (
-          <ListItem key={data.text}>
+          <ListItem
+            key={data.text}
+            sx={{
+              margin: "16px 16px 16px 8px",
+              width: "auto",
+              "&:hover": {
+                borderRadius: "4px",
+                backgroundColor:
+                  mode === "dark"
+                    ? "rgba(144, 202, 249, 0.28)"
+                    : "rgba(0, 0, 0, 0.04)",
+              },
+            }}
+          >
             <ListItemButton component={NavLink} to={data.to}>
-              <ListItemIcon>{data.icon}</ListItemIcon>
+              <ListItemIcon
+                sx={{
+                  alignItems: "center",
+                  color:
+                    mode === "light"
+                      ? theme.palette.text.primary
+                      : theme.palette.text.secondary,
+                }}
+              >
+                {data.icon}
+              </ListItemIcon>
               <ListItemText primary={data.text} />
             </ListItemButton>
           </ListItem>
         ))}
-        {theme === "light" ? (
-          <ListItem>
-            <ListItemButton onClick={onChangeTheme}>
-              <ListItemIcon>{<LightModeOutlinedIcon />}</ListItemIcon>
-              <ListItemText primary={"Light Mode"} />
+        {mode === "light" ? (
+          <ListItem
+            sx={{
+              margin: "16px 16px 16px 8px",
+              width: "auto",
+              "&:hover": {
+                borderRadius: "4px",
+                backgroundColor: "rgba(0, 0, 0, 0.04)",
+              },
+            }}
+          >
+            <ListItemButton component={NavLink} onClick={onChangeTheme}>
+              <ListItemIcon
+                sx={{
+                  alignItems: "center",
+                }}
+              >
+                {
+                  <LightModeOutlinedIcon
+                    sx={{
+                      color: theme.palette.text.primary,
+                    }}
+                  />
+                }
+              </ListItemIcon>
+              <ListItemText
+                primary={"Light Mode"}
+                sx={{
+                  color: theme.palette.text.primary,
+                }}
+              />
             </ListItemButton>
           </ListItem>
         ) : (
-          <ListItem>
-            <ListItemButton onClick={onChangeTheme}>
-              <ListItemIcon>{<DarkModeOutlinedIcon />}</ListItemIcon>
-              <ListItemText primary={"Dark Mode"} />
+          <ListItem
+            sx={{
+              margin: "16px 16px 16px 8px",
+              width: "auto",
+              "&:hover": {
+                borderRadius: "4px",
+                backgroundColor: "rgba(144, 202, 249, 0.28)",
+              },
+            }}
+          >
+            <ListItemButton component={NavLink} onClick={onChangeTheme}>
+              <ListItemIcon>
+                {
+                  <DarkModeOutlinedIcon
+                    sx={{
+                      color: theme.palette.text.secondary,
+                    }}
+                  />
+                }
+              </ListItemIcon>
+              <ListItemText
+                primary={"Dark Mode"}
+                sx={{
+                  color: theme.palette.text.secondary,
+                }}
+              />
             </ListItemButton>
           </ListItem>
         )}

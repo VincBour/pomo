@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { DrawerLeft } from "./layout/drawerLeft/DrawerLeft";
+import { DrawerLeft } from "./DrawerLeft";
 import { render, screen, fireEvent } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import { act } from "react-dom/test-utils";
